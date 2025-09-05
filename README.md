@@ -20,7 +20,7 @@
 
 - **Frontend:** React, TypeScript, Tailwind CSS
 - **AI Model:** Google Gemini API (`gemini-2.5-flash`, `veo-2.0-generate-001`) via `@google/genai`
-- **Setup:** No build step, dependencies are loaded via `importmap`.
+- **Build Tool:** Vite
 
 ## 🚀 시작하기 (Getting Started)
 
@@ -28,33 +28,30 @@
 
 ### 1. 사전 요구사항 (Prerequisites)
 
-- 최신 웹 브라우저 (Chrome, Firefox, Safari, Edge 등)
+- [Node.js](https://nodejs.org/) (LTS version recommended) and npm
 - 코드 에디터 (예: Visual Studio Code)
-- 로컬 웹 서버 (Live Server 확장 프로그램 추천)
 
-### 2. 프로젝트 클론 (Clone Repository)
+### 2. 프로젝트 클론 및 설정 (Clone and Setup)
 
 ```bash
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
+# 저장소 클론
+git clone https://github.com/fillgeun/AI_mv_studio.git
+cd AI_mv_studio
+
+# 의존성 설치
+npm install
 ```
 
 ### 3. API 키 설정 (API Key Configuration) - ⚠️ 매우 중요!
 
 이 애플리케이션의 AI 기능을 사용하려면 Google Gemini API 키가 **반드시** 필요합니다.
 
-> **[!] 왜 이 설정이 필요한가요?**
->
-> 이 프로젝트의 `.gitignore` 파일에는 `.env`가 포함되어 있습니다. 이는 API 키와 같은 민감한 정보를 안전하게 보호하기 위한 **의도적인 보안 조치**입니다.
->
-> 따라서, 저장소를 처음 클론하면 API 키가 들어있는 `.env` 파일이 없기 때문에 AI 기능이 작동하지 않습니다. 아래 단계에 따라 **반드시 직접** `.env` 파일을 생성하고 자신의 API 키를 입력해야 합니다.
-
 1.  **Google AI Studio**로 이동하여 API 키를 발급받으세요.
     - [Get API Key from Google AI Studio](https://aistudio.google.com/app/apikey)
 
-2.  프로젝트의 최상위 폴더(root)에서 **`.env.example` 파일을 복사하여 `.env` 라는 이름의 새 파일을 만드세요.**
+2.  프로젝트의 최상위 폴더(root)에 `.env` 라는 이름의 새 파일을 만드세요.
 
-3.  새로 만든 `.env` 파일을 열고 `"이곳에 당신의..."` 부분을 발급받은 실제 API 키로 교체하세요. 파일 내용은 아래와 같은 형식이어야 합니다.
+3.  `.env` 파일에 발급받은 실제 API 키를 아래와 같은 형식으로 추가하세요.
 
     ```env
     # .env
@@ -62,58 +59,52 @@ cd your-repo-name
     ```
 > **보안 경고:** `.env` 파일은 `.gitignore`에 의해 Git 추적에서 제외됩니다. **절대로** 이 파일을 공개적으로 공유하거나 커밋하지 마세요.
 
-### 4. 애플리케이션 실행 (Running the Application)
+### 4. 개발 서버 실행 (Running the Development Server)
 
-이 프로젝트는 별도의 빌드 과정이 필요 없습니다. `index.html` 파일을 로컬 서버로 실행하면 됩니다.
+API 키 설정이 완료되면, 개발 서버를 시작할 수 있습니다.
 
-- **VS Code + Live Server (추천):**
-  1.  VS Code에서 [Live Server](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) 확장 프로그램을 설치합니다.
-  2.  `index.html` 파일을 우클릭한 후 `Open with Live Server`를 선택합니다.
+```bash
+npm run dev
+```
 
-- **터미널 사용:**
-  1.  Node.js가 설치되어 있다면, 프로젝트 폴더에서 아래 명령어를 실행할 수 있습니다.
-  ```bash
-  npx serve
-  ```
-  2.  터미널에 표시된 `localhost` 주소로 접속합니다.
+터미널에 표시된 `localhost` 주소(예: `http://localhost:5173`)로 접속하여 애플리케이션을 확인하세요.
+
+## 🚀 배포 (Deployment)
+
+이 프로젝트는 GitHub Pages로 쉽게 배포할 수 있도록 설정되어 있습니다.
+
+1.  **`package.json` 확인:** `homepage` 필드가 배포하려는 GitHub Pages 주소와 일치하는지 확인하세요.
+    ```json
+    "homepage": "https://fillgeun.github.io/AI_mv_studio/",
+    ```
+
+2.  **배포 스크립트 실행:** 아래 명령어를 실행하면 프로젝트가 빌드되고 `gh-pages` 브랜치에 배포됩니다.
+    ```bash
+    npm run deploy
+    ```
+
+3.  **GitHub Pages 설정 확인:**
+    - GitHub 저장소의 `Settings > Pages`로 이동합니다.
+    - 'Source'를 'Deploy from a branch'로 선택하고, 브랜치를 `gh-pages`로 설정한 뒤 저장합니다.
+    - 몇 분 후 `homepage` 주소에서 배포된 애플리케이션을 확인할 수 있습니다.
 
 ## 📁 프로젝트 구조 (Project Structure)
 
 ```
 /
-├── components/         # 재사용 가능한 모든 React 컴포넌트
-├── services/           # 외부 API와 통신하는 로직
-├── .env.example        # 환경 변수 템플릿 파일
+├── components/         # React 컴포넌트
+├── services/           # 외부 API 통신 로직
+├── .env                # (직접 생성) API 키 등 환경 변수
 ├── .gitignore          # Git 추적 제외 목록
-├── App.tsx             # 최상위 React 컴포넌트 및 상태 관리
 ├── index.html          # 애플리케이션의 진입점 (Entry Point)
+├── index.tsx           # 최상위 React 렌더링 스크립트
+├── package.json        # 프로젝트 의존성 및 스크립트
+├── vite.config.ts      # Vite 빌드 설정
 └── ...
 ```
-
-## 🤝 기여하기 (Contributing)
-
-이 프로젝트에 대한 기여를 환영합니다! 버그를 발견하거나 새로운 기능을 제안하고 싶다면 언제든지 이슈(Issue)를 열어주세요. 직접 코드를 수정하고 싶다면 Pull Request를 보내주시면 됩니다.
 
 ## ⚖️ 책임의 한계 (Disclaimer)
 
 이 프로젝트는 AI를 활용하는 창작자들을 위한 실험적인 도구 모음입니다. 사용자가 이 도구를 사용하여 생성한 모든 결과물(가사, 음악, 영상 등)에 대한 저작권 및 법적 책임은 전적으로 해당 사용자에게 있습니다.
 
 프로젝트 개발자는 생성된 콘텐츠로 인해 발생하는 어떠한 문제에 대해서도 책임을 지지 않으며, 결과물의 사용은 각 국가의 법률과 서비스 약관을 준수해야 합니다.
-
-## 📄 라이선스 (License)
-
-This project is licensed under the `Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License`.
-자세한 내용은 [여기](https://creativecommons.org/licenses/by-nc-sa/4.0/)를 참조하세요.
-
-## 🗺️ 향후 계획 (Roadmap)
-
-- [ ] Lyria RealTime, Gemini TTS API 직접 연동
-- [ ] 비디오 에디터 기능 고도화 (트랜지션, 텍스트 오버레이, 필터 등)
-- [ ] 생성된 에셋(가사, 프롬프트, 영상)을 프로젝트별로 관리하는 기능
-- [ ] 워크플로우 단계별 가이드 및 튜토리얼 추가
-
-## ⚠️ 알려진 문제 (Known Issues)
-
-- Google Veo API를 이용한 영상 생성은 몇 분 이상 소요될 수 있습니다.
-- 현재 비디오 에디터는 기본적인 기능만 갖춘 프로토타입 단계입니다.
-- API 키가 클라이언트 측 코드에서 직접 호출됩니다. 이는 데모 목적이며, 실제 프로덕션 환경에서는 서버를 통해 API를 호출하는 것이 안전합니다.
