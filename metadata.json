@@ -1,0 +1,5 @@
+{
+  "name": "Copy of AI Music Production Platform",
+  "description": "An integrated platform for music production that consolidates various AI services into a single, tab-based interface using iframes, streamlining the creative workflow from lyrics to final video.",
+  "requestFramePermissions": []
+}
