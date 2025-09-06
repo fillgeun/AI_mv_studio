@@ -5,7 +5,13 @@ import App from './App';
 // PWA Service Worker Registration
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/AI_mv_studio/sw.js')
+    // Dynamically determine the base path from the current URL.
+    // This is more robust than relying on build-time environment variables
+    // which were causing a runtime error.
+    const path = window.location.pathname;
+    const scope = path.substring(0, path.lastIndexOf('/') + 1);
+
+    navigator.serviceWorker.register(`${scope}sw.js`)
       .then(registration => {
         console.log('ServiceWorker registration successful with scope: ', registration.scope);
       })
